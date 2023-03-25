@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html layout:decorator="/admin/template">
+<head>
+<title>Minh Tuan | Danh sach Kich Thuoc</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ok -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" 
+integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" 
+crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<!-- ok -->
+<style> 
+input[type=text] {
+  width: 180px;
+  height: 40px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-position: 10px 10px; 
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+  width: 40%;
+}
+</style>
+</head>
+<body>
+	<div layout:fragment="form-body" style="margin-left: 20px;">
+		<h3 class="w3-text-teal" th:text="'Kích thước'" />
+		<!-- <div class="row">
+			<form th:action="@{/admin/kich-thuoc/search}" method="get" class="example">
+				<input class="col-md-5" type="text" placeholder="Search name" name="keyword" th:value="${keyword}" >
+				<input type="text" name="keyword" th:value="${keyword}" placeholder="Search name">
+				<button type="submit" class="col-md-2 w3-indigo w3-button mt-3" style=" border-radius: 5px; ">Tìm kiếm <i class="fas fa-search"></i></button>
+				
+				<button class="col-md-2 w3-teal w3-button mt-3" style=" border-radius: 5px; margin-left: 10px;">
+					<a th:href="@{/admin/kich-thuoc/search}" >Làm mới <i class="fas fa-redo-alt"></i></a>
+				</button>
+				
+				<button class="col-md-2 w3-deep-orange w3-button mt-3" style="border-radius: 5px;">
+					<a th:href="@{/admin/kich-thuoc/create}" >Thêm mới kích thước <i class="fa-solid fa-circle-plus"></i></a>
+				</button>
+			</form>
+        </div> -->
+		<div class="row w3-responsive">
+			<table class=" table w3-small " >
+				<thead>
+					<tr style="font-size: 18px;">
+						<th class="w3-center w3-text-teal">ID</th>
+						<th class="w3-center w3-text-teal">Kích thước</th>
+						<!-- <th class="w3-center w3-text-teal">Tùy chọn</th> -->
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="kt : ${kichThuocs}" >
+						<td class="w3-center" th:text="${kt.id}"></td>
+						<td class="w3-center" th:text="${kt.name}"></td>
+						<!-- <td class="w3-center" >
+							<a class="text-danger" th:href="@{'/admin/kich-thuoc/delete?id=' + ${kt.id}}">
+								<button class="w3-button w3-red btn-sm"><i class="fa-regular fa-trash-can"></i></button>
+							</a>
+							
+							<a class="text-info" th:href="@{'/admin/kich-thuoc/update?id=' + ${kt.id}}">
+								<button class="w3-button w3-indigo btn-sm"><i class="fa-regular fa-pen-to-square"></i></button>
+							</a>
+						</td> -->
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- <button class="w3-button w3-teal">
+			<a th:href="@{'/admin/kich-thuoc/search?keyword=' + ${keyword} +'&page=' + ${page + 1}}">LOAD MORE</a>
+		</button> -->
+	</div>
+</body>
+</html>

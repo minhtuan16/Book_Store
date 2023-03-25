@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html layout:decorator="home.html">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- ok -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- ok -->
+    <title>MinhTuan</title>
+  </head>
+  <body>
+    <div layout:fragment="form-body">
+    	<div class="container mt-1">
+	      <div class="row">
+	        <h6>Update Book</h6>
+	      </div>
+      		<hr />
+	      <div class="row">
+	        <form th:action="@{/admin/book/update}" method="post">
+	        
+	          <input
+	              th:value="${book.imageURL}"
+	              type="file"
+	              name="imageURL"
+	              accept="image/*"
+	              class="form-control"
+	            />
+	            
+	          <div class="mb-3">
+	            <label class="form-label">ID:</label>
+	            <input
+	              readonly="readonly"
+	              th:value="${book.id}"
+	              type="text"
+	              name="id"
+	              class="form-control"
+	            />
+	          </div>
+	          
+	          
+	           <div class="mb-3">
+              <label for="pwd" class="form-label">Mã sản phẩm:</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter mã sản phẩm"
+                name="codeBook"
+                th:value="${book.codeBook}"
+              />
+            </div>
+            
+            <div class="mb-3">
+              <label for="pwd" class="form-label">Tên sách:</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter tên sản phẩm"
+                name="nameBook"
+                th:value="${book.nameBook}"
+              />
+            	<!-- <p th:errors="*{name}" style="color: red"></p> -->
+            </div>
+	
+	          <div class="mb-3">
+              <label for="pwd" class="form-label">Tác giả:</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter tên tác giả"
+                name="authorBook"
+               	th:value="${book.authorBook}"
+              />
+            	<!-- <p th:errors="*{name}" style="color: red"></p> -->
+            </div>
+            
+
+            <div class="mb-3">
+              <label for="pwd" class="form-label">Giá tiền:</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Enter giá"
+                name="priceBook"
+                th:value="${book.priceBook}"
+              />
+            </div>
+            
+            <div class="mb-3">
+              <label for="pwd" class="form-label">Trình độ / Lớp:</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter trình độ"
+                name="levelBook"
+                th:value="${book.levelBook}"
+              />
+            </div>
+            
+            <div class="mb-3">
+              <label for="pwd" class="form-label">Cấp học:</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter cấp học"
+                name="schoolLevel"
+                th:value="${book.schoolLevel}"
+              />
+            </div>
+            
+            <div class="mb-3">
+              <label for="pwd" class="form-label">Năm xuất bản:</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter năm xuất bản"
+                name="yearPublic"
+                th:value="${book.yearPublic}"
+              />
+            </div>
+            
+            <div class="mb-3">
+              <label for="pwd" class="form-label">Trọng lượng (gr):</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Enter trọng lượng sách"
+                name="weightBook"
+                th:value="${book.weightBook}"
+              />
+            </div>
+            
+            <div class="mb-3">
+              <label for="pwd" class="form-label">Số trang:</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Enter số trang sách"
+                name="numberPage"
+                th:value="${book.numberPage}"
+              />
+            </div>
+	
+	        <div class="mb-3">
+              <label for="pwd" class="form-label">Thông tin sản phẩm:</label>
+              <textarea
+                type="text"
+                class="form-control"
+                placeholder="Enter thông tin"
+                name="descriptionBook"
+                th:value="${book.descriptionBook}"
+              >
+              </textarea>
+              <!-- <p th:errors="*{descriptionProduct}" style="color: red"></p> -->
+            </div>
+	          
+	          <div class="mb-3">
+              <label class="form-label">Category:</label>
+              <select name="category.id" class="form-control">
+                <option
+                  th:each="c : ${categories}"
+                  th:value="${c.id}"
+                  th:text="${c.nameCategory}"
+                 th:selected="${c.id == book.categoryDTO.id}"
+                ></option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label">Kích Thước:</label>
+              <select name="kichThuoc.id" class="form-control">
+                <option
+                  th:each="kt : ${kichThuocs}"
+                  th:value="${kt.id}"
+                  th:text="${kt.sizeBook}"
+                  th:selected="${kt.id == book.kichThuocDTO.id}"
+                ></option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label">Nhà xuất bản:</label>
+              <select class="form-control">
+                <option
+                  th:each="nxb : ${nxbs}"
+                  th:value="${nxb.id}"
+                  th:text="${nxb.nameNXB}"
+                  th:selected="${nxb.id == book.nxbDTO.id}"
+                ></option>
+              </select>
+            </div>
+	
+	          <div class="mb-3">
+	            <button class="btn btn-primary" type="submit">Save</button>
+	          </div>
+	        </form>
+	      </div>
+		</div>
+    </div>
+  </body>
+</html>

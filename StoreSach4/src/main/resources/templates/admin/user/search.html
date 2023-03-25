@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html layout:decorator="/admin/template">
+<head>
+<title>MinhTuan</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ok -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" 
+integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" 
+crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<!-- ok -->
+<style> 
+input[type=text] {
+  width: 220px;
+  height: 40px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-position: 10px 10px; 
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+  width: 40%;
+}
+</style>
+</head>
+  <body>
+    <div layout:fragment="form-body" style="margin-left: 20px;">
+      <h3 class="w3-text-teal" th:text="'Tài khoản'" />
+		<div class="row">
+			<form th:action="@{/admin/user/search}" method="get" class="example">
+				<!-- <input class="col-md-5" type="text" placeholder="Search name" name="keyword" th:value="${keyword}" > -->
+				<input type="text" name="keyword" th:value="${keyword}" placeholder="Search username">
+				<button type="submit" class="col-md-2 w3-indigo w3-button mt-3" style=" border-radius: 5px; ">Tìm kiếm <i class="fas fa-search"></i></button>
+				
+				<button class="col-md-2 w3-teal w3-button mt-3" style=" border-radius: 5px; margin-left: 10px;">
+					<a th:href="@{/admin/user/search}" >Làm mới <i class="fas fa-redo-alt"></i></a>
+				</button>
+				
+				<button class="col-md-2 w3-deep-orange w3-button mt-3" style="border-radius: 5px;">
+					<a th:href="@{/admin/user/create}" >Thêm mới tài khoản <i class="fa-solid fa-circle-plus"></i></a>
+				</button>
+			</form>
+        </div>
+	     <div class="row w3-responsive">
+				<table class=" table w3-small " >
+					<thead>
+						<tr style="font-size: 18px;">
+							<th class="w3-center w3-text-teal">ID</th>
+							<th class="w3-center w3-text-teal">Name</th>
+							<th class="w3-center w3-text-teal">Username</th>
+							<th class="w3-center w3-text-teal">Password</th>
+							<th class="w3-center w3-text-teal">Gender</th>
+							<th class="w3-center w3-text-teal">Enabled</th>
+							<th class="w3-center w3-text-teal">Address</th>
+							<th class="w3-center w3-text-teal">Phone</th>
+							<th class="w3-center w3-text-teal">Age</th>
+							<th class="w3-center w3-text-teal">Role</th>
+							<th class="w3-center w3-text-teal">Email</th>
+							<th class="w3-center w3-text-teal">Tùy chọn</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="user : ${list}" >
+							<td class="w3-center" th:text="${user.id}"></td>
+							<td class="w3-center" th:text="${user.name}"></td>
+							<td class="w3-center" th:text="${user.username}"></td>
+							<td class="w3-center text-truncate" style="max-width: 150px;" th:text="${user.password}"></td>
+							<td class="w3-center" th:text="${user.gender}"></td>
+							<td class="w3-center" th:text="${user.enabled}"></td>
+							<td class="w3-center" th:text="${user.address}"></td>
+							<td class="w3-center" th:text="${user.phone}"></td>
+							<td class="w3-center" th:text="${user.age}"></td>
+							<td class="w3-center" th:text="${user.role}"></td>
+							<td class="w3-center" th:text="${user.email}"></td>
+							<td class="w3-center" >
+								<a class="text-danger" th:href="@{'/admin/user/delete?id=' + ${user.id}}">
+									<button class="w3-button w3-red btn-sm"><i class="fa-regular fa-trash-can"></i></button>
+								</a>
+								
+								<a class="text-info" th:href="@{'/admin/user/update?id=' + ${user.id}}">
+									<button class="w3-button w3-indigo btn-sm"><i class="fa-regular fa-pen-to-square"></i></button>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+	      	<!-- <button class="w3-button w3-teal">
+				<a th:href="@{'/admin/user/search?keyword=' + ${keyword} +'&page=' + ${page + 1}}">LOAD MORE</a>
+			</button> -->
+			<div class="row undertable " style="float: right; margin-right: 2px;">
+			<div class="row">
+				<ul class="pagination">
+					<li th:if="${totalPage > 0}" class="page-item">
+						<a class="page-link" th:href="@{'/admin/users/search?page='+ ${page - 1 < 0 ? 0 : (page - 1)} + '&keyword=' + ${keyword} }">Previous</a>
+					</li>
+	
+					<li th:if="${totalPage > 0}" th:each="i: ${#numbers.sequence(0, totalPage - 1)}" class="page-item">
+						<a class="page-link" th:href="@{'/admin/users/search?page='+ ${i} + '&keyword=' + ${keyword} }" th:text="${i}"></a>
+					</li>
+	
+					<li th:if="${totalPage > 0}" class="page-item">
+						<a class="page-link" th:href="@{'/admin/users/search?page='+ ${page + 1 >= totalPage ? (totalPage - 1) : (page + 1) } + '&keyword=' + ${keyword}}">Next</a>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+    </div>
+  </body>
+</html>

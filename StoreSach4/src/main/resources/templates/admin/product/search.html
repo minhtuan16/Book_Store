@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html layout:decorator="/admin/template">
+<head>
+<title>MinhTuan</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" 
+integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" 
+crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style> 
+input[type=text] {
+  width: 180px;
+  height: 40px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: white;
+  background-position: 10px 10px; 
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+  width: 20%;
+}
+</style>
+</head>
+  <body>
+    <div layout:fragment="form-body" style="margin-left: 20px;">
+    	<h3 class="w3-text-teal" th:text="'Danh sách sản phẩm'" />
+		<div class="row">
+	    	<form th:action="@{/admin/product/search}" method="get" class="example">
+	        	<input type="text" name="keyword" th:value="${keyword}" placeholder="Search name">
+	        	
+	        	<label>Category:</label>
+                <select name="categoryName" >
+                  <option value="">Chọn</option>
+                  <option th:each="c : ${categoryList}" th:value="${c.nameCategory}" th:text="${c.nameCategory}" th:selected="${c.nameCategory == categoryName}"></option>
+                </select>
+	        	
+				 <label>Thương Hiệu : </label> 
+				 <select type="text" name="thuongHieuName" >
+					<option value="">Chọn</option>
+				 	<option th:each="th: ${thuongHieuList}" th:value="${th.name}" th:text="${th.name}" th:selected="${th.name == thuongHieuName}"></option>
+				 </select>
+				
+				 <label>Kích Thước : </label> 
+				 <select type="text" name="kichThuocName">
+					<option value="">Chọn</option>
+					<option th:each="kt: ${kichThuocList}" th:value="${kt.name}" th:text="${kt.name}" th:selected="${kt.name == kichThuocName}"></option>
+				 </select> 
+				 
+				 <label> Giới Tính: </label> 
+				 <select type="text" name="gioiTinhName" >
+					<option value="">Chọn</option>
+				 	<option th:each="gioiTinh: ${gioiTinhList}" th:value="${gioiTinh.name}" th:text="${gioiTinh.name}"></option>
+				 </select> 
+					
+				 <input type="text" name="priceStart" th:value="${priceStart}" placeholder="giá từ"/> 
+						
+				 <input type="text" name="priceEnd" th:value="${priceEnd}" placeholder="giá đến"/>
+				 
+				 <br/>
+				
+				 <button type="submit" class="w3-indigo w3-button mt-3" style=" border-radius: 5px; ">Tìm kiếm <i class="fas fa-search"></i></button>
+				
+				 <button class=" w3-teal w3-button mt-3" style=" border-radius: 5px;">
+					<a th:href="@{/admin/product/search}" >Làm mới <i class="fas fa-redo-alt"></i></a>
+				 </button>
+				
+				 <button class="w3-deep-orange w3-button mt-3" style="border-radius: 5px;">
+					<a th:href="@{/admin/product/create}" >Thêm mới <i class="fa-solid fa-circle-plus"></i></a>
+				 </button>
+	        </form>
+	    </div>
+      	<div class="row w3-responsive">
+        	<table class="table w3-small">
+          		<thead>
+            		<tr style="font-size: 12px;">
+            			<th class="w3-center w3-text-teal">Image</th>
+              			<th class="w3-center w3-text-teal">ID</th>
+		            	<th class="w3-center w3-text-teal">Name</th>
+		            	<th class="w3-center w3-text-teal">Price</th>
+		              	<th class="w3-center w3-text-teal">Description</th>
+		              	<th class="w3-center w3-text-teal">Quantity</th>
+		              	<th class="w3-center w3-text-teal">Category</th>
+		              	<th class="w3-center w3-text-teal">Thuong Hieu</th>
+		              	<th class="w3-center w3-text-teal">Kich Thuoc</th>
+		              	<th class="w3-center w3-text-teal">Gioi Tinh</th>
+		              	<th class="w3-center w3-text-teal">Tùy chọn</th>
+	            	</tr>
+          		</thead>
+          		<tbody>
+            		<tr th:each="pro : ${productList}">
+		              	<td class="w3-center" style="justify-content: center">
+		              		<!-- <img th:src="@{'/admin/product/download?image=' + ${pro.image}}" 
+							style="width: 100px; height: 50px;"> -->
+							<img th:src="@{'/download?image=' + ${pro.image}}" 
+							style="width: 100px; height: 50px;">
+						</td>
+		            	<td class="w3-center" th:text="${pro.id}"></td>
+		              	<td class="w3-center text-truncate" style="max-width: 150px;" th:text="${pro.name}"></td>
+		              	<td class="w3-center" th:text="${pro.price} +đ"></td>
+		              	<td class="w3-center text-truncate" style="max-width: 150px;" th:text="${pro.description}" ></td>
+		              	<td class="w3-center" th:text="${pro.soLuong}"></td>
+		              	<td class="w3-center" th:text="${pro.category.nameCategory}"></td>
+		              	<td class="w3-center" th:text="${pro.thuongHieuDTO.name }"></td>
+		              	<td class="w3-center" th:text="${pro.kichThuocDTO.name }"></td>
+		              	<td class="w3-center" th:text="${pro.gioiTinhDTO.name }"></td>
+		              	<td class="w3-center">
+		                	<a class="text-danger" th:href="@{'/admin/product/delete?id=' + ${pro.id}}">
+		                		<button class="w3-button w3-red btn-sm"><i class="fa-regular fa-trash-can"></i></button>
+		                	</a>
+		                	<a class="text-info" th:href="@{'/admin/product/update?id=' + ${pro.id}}">
+		                		<button class="w3-button w3-indigo btn-sm"><i class="fa-regular fa-pen-to-square"></i></button>
+		                	</a>
+		              	</td>
+            		</tr>
+          		</tbody>
+        	</table>
+      	</div>
+
+      	<button class="w3-button w3-teal">
+			<a th:href="@{'/admin/product/search?keyword=' + ${keyword} +'&page=' + ${page + 1}}">LOAD MORE</a>
+		</button>
+    </div>
+  </body>
+</html> 

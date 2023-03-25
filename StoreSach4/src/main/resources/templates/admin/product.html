@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html layout:decorator="/admin/template.html" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>MinhTuan</title>
+<!-- Bootstrap CSS  & FontAwsome-->
+<link th:href="@{/client/css/bootstrap.css}" rel="stylesheet">
+<link th:href="@{/client/font-awesome/css1/all.css}" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<link rel="icon" href="images/icon.png" />
+<!-- Our Custom CSS -->
+<link rel="stylesheet" th:href="@{/client/css/style4.css}">
+<link rel="stylesheet" th:href="@{/client/css/card.css}">
+<script type="text/javascript" th:src="@{/client/font-awesome/js1/fontawesome.js}"></script>
+<script type="text/javascript" src=""></script>
+
+</head>
+  <body layout:fragment="form-body">
+    <div>
+	    <div class="wrapper">
+		<div id="content">
+			<div class="container" id="app">
+				<!-- Default form subscription -->
+				<div class="card">
+					<div class="card-header">
+
+						<div class="tab">
+							<button class="tablinks" onclick="openTab(event, 'category')" id="defaultOpen">Category</button>
+							<button class="tablinks" onclick="openTab(event, 'thuongHieu')" >Thương Hiệu</button>
+							<button class="tablinks" onclick="openTab(event, 'kichThuoc')" >Kích Thước</button>
+							<button class="tablinks" onclick="openTab(event, 'gioiTinh')" >Giới Tính</button>
+							<button class="tablinks" onclick="openTab(event, 'product')"
+								>Product</button>
+							<button class="tablinks" onclick="openTab(event, 'album')">Product pictures</button>
+							<button class="tablinks" onclick="openTab(event, 'coupon')">Coupon-discount</button>
+						</div>
+					</div>
+					
+					<div class="card-body">
+
+						<div id="product" class="tabcontent">
+						   <h5 class="text-center">Add Product</h5>
+							<form class="text-center border border-light p-5" th:action="@{/admin/addP}" method="POST" enctype="multipart/form-data">
+
+								<!-- Name -->
+								<input type="text" name="pname" id="name"
+									class="form-control mb-4" placeholder="Product Name">
+                                <!-- Name -->
+								<input type="text" name="brand" id="brand"
+									class="form-control mb-4" placeholder="Product brand">
+								<!-- Price -->
+								<input type="text" name="price" id="price"
+									class="form-control mb-4" placeholder="Product Price">
+								<!-- quantity -->
+								<input type="text" name="quantity" id="quantity"
+									class="form-control mb-4" placeholder="Product quantity">
+
+								<!-- Description -->
+								<textarea class="form-control mb-4" id="desc" name="desc"
+									placeholder="Product description">
+                                 </textarea>
+								
+								<div class="form-group">
+                    
+									<select class="form-control selectpicker" name="categories"
+										title="Chọn Category" multiple data-actions-box="true">
+
+										<option th:each="category : ${categories}" th:value="${category.id}">[[${category.name}]]</option>
+																			
+									</select>
+								</div>
+								
+								<div class="form-group">
+                    
+									<select class="form-control selectpicker" name="thuongHieus"
+										title="Chọn Thương Hiệu" multiple data-actions-box="true">
+
+										<option th:each="thuongHieu : ${thuongHieus}" th:value="${thuongHieu.id}">[[${thuongHieu.name}]]</option>
+																			
+									</select>
+								</div>
+								
+								<div class="form-group">
+                    
+									<select class="form-control selectpicker" name="kichThuocs"
+										title="Chọn Kích Thước" multiple data-actions-box="true">
+
+										<option th:each="kichThuoc : ${kichThuocs}" th:value="${kichThuoc.id}">[[${kichThuoc.name}]]</option>
+																			
+									</select>
+								</div>
+								
+								<div class="form-group">
+                    
+									<select class="form-control selectpicker" name="gioiTinhs"
+										title="Chọn Giới Tính" multiple data-actions-box="true">
+
+										<option th:each="gioiTinh : ${gioiTinhs}" th:value="${gioiTinh.id}">[[${gioiTinh.name}]]</option>
+																			
+									</select>
+								</div>
+								<div class="custom-file mb-4">
+									<label class="custom-file-label mb-4"
+										for="customFile">Product Image</label>
+										
+									<input type="file" name="file" class="custom-file-input"
+										id="customFile" accept="image/*" onchange="loadFile(event)"> 
+									<div id="myDIV" class="mb-4">
+									 	<img id="output" style="width: 50%; height: 50%;"/> 
+									 </div>
+									 
+									 <button class="btn btn-info btn-block" type="submit">Submit</button>
+								</div>
+								<!-- Sign in button -->
+								
+							</form>
+						</div>
+
+						<div id="category" class="tabcontent">
+							<h5 class="text-center"> Add category</h5>
+							<form th:action="@{/admin/addCategory}" method="POST" th:Object="${category}">
+							  <div class="form-group">
+							   <input type="text" th:field="*{name}" class="form-control" placeholder="Add Category"/>
+							  </div>
+							 
+							  <div class="form-group">
+							  <button class="btn btn-info btn-block" type="submit">Submit</button>
+							  </div>
+							</form>
+						</div>
+						
+						<div id="thuongHieu" class="tabcontent">
+							<h5 class="text-center"> Add Thương Hiệu</h5>
+							<form th:action="@{/admin/addThuongHieu}" method="POST" th:Object="${thuongHieu}">
+							  <div class="form-group">
+							   <input type="text" th:field="*{name}" class="form-control" placeholder="Add Thương Hiệu"/>
+							  </div>
+							 
+							  <div class="form-group">
+							  <button class="btn btn-info btn-block" type="submit">Submit</button>
+							  </div>
+							</form>
+						</div>
+						
+						<div id="kichThuoc" class="tabcontent">
+							<h5 class="text-center"> Add Kích Thước</h5>
+							<form th:action="@{/admin/addKichThuoc}" method="POST" th:Object="${kichThuoc}">
+							  <div class="form-group">
+							   <input type="text" th:field="*{name}" class="form-control" placeholder="Add Kích Thước"/>
+							  </div>
+							 
+							  <div class="form-group">
+							  <button class="btn btn-info btn-block" type="submit">Submit</button>
+							  </div>
+							</form>
+						</div>
+						
+						<div id="gioiTinh" class="tabcontent">
+							<h5 class="text-center"> Add Giới Tính</h5>
+							<form th:action="@{/admin/addGioiTinh}" method="POST" th:Object="${gioiTinh}">
+							  <div class="form-group">
+							   <input type="text" th:field="*{name}" class="form-control" placeholder="Add Giới Tính"/>
+							  </div>
+							 
+							  <div class="form-group">
+							  <button class="btn btn-info btn-block" type="submit">Submit</button>
+							  </div>
+							</form>
+						</div>
+
+						<div id="coupon" class="tabcontent">
+							<h5 class="text-center">Add discount to product</h5>
+							<form th:action="@{/admin/addDiscountToP}" method="POST">
+							  <div class="form-group">
+							   <select name="product_id" class="form-control" >
+							    <option th:each="product : ${products}" th:value="${product.id}">[[${product.name}]]</option>
+							   </select>
+							  </div>
+							  
+                              <div class="form-group">
+							  <input type="number" class="form-control" name="discount" min="0" max="75" placeholder="Tu 0 den 75%"/>
+							  </div>
+							  <div class="form-group">
+							  <button class="btn btn-info btn-block" type="submit">Submit</button>
+							  </div>
+							</form>
+						</div>
+						
+						<div id="album" class="tabcontent">
+							<h5 class="text-center">Add pictures to produt</h5>
+							<form th:action="@{/admin/addPictureToP}" method="POST" enctype="multipart/form-data">
+							  <div class="form-group">
+							   <select name="product_id" class="form-control" >
+							    <option th:each="product : ${products}" th:value="${product.id}">[[${product.name}]]</option>
+							   </select>
+							  </div>
+							  <div class="custom-file mb-4">
+							  	<div>
+									<label class="custom-file-label" for="customFile">Product Image1: </label>
+									<input type="file" name="file" class="custom-file-input"
+										id="customFile" accept="image/*" onchange="loadFile1(event)"> 
+							  		<div id="myDIV">
+										<img id="outputPic1" style="width: 20%; height: 20%;"/>
+									</div>
+							  	</div>
+							  	
+							  	<div>
+									<label class="custom-file-label" for="customFile">Product Image2: </label>
+									<input type="file" name="file" class="custom-file-input"
+										id="customFile" accept="image/*" onchange="loadFile2(event)"> 
+							  		<div id="myDIV">
+										<img id="outputPic2" style="width: 20%; height: 20%;"/>
+									</div>
+							  	</div>
+							  	
+							  	<div>
+									<label class="custom-file-label" for="customFile">Product Image3: </label>
+									<input type="file" name="file" class="custom-file-input"
+										id="customFile" accept="image/*" onchange="loadFile3(event)"> 
+							  		<div id="myDIV">
+										<img id="outputPic3" style="width: 20%; height: 20%;"/>
+									</div>
+							  	</div>
+							</div>
+							  <div class="form-group">
+							  <button class="btn btn-info btn-block" type="submit">Submit</button>
+							  </div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- Default form subscription -->
+
+
+			</div>
+			<div class="line"></div>
+		</div>
+	</div>
+	<!-- Popper.JS -->
+	
+	<script>
+		var loadFile = function(event) {
+			var output = document.getElementById('output');
+			output.src = URL.createObjectURL(event.target.files[0]);
+			output.onload = function() {
+				URL.revokeObjectURL(output.src) // free memory
+			}
+		};
+		
+		var loadFile1 = function(event) {
+			
+			var output1 = document.getElementById('outputPic1');
+			output1.src = URL.createObjectURL(event.target.files[0]);
+			output1.onload = function() {
+				URL.revokeObjectURL(output1.src) // free memory
+			}
+			
+		};
+		
+		var loadFile2 = function(event) {
+			var output2 = document.getElementById('outputPic2');
+			output2.src = URL.createObjectURL(event.target.files[0]);
+			output2.onload = function() {
+				URL.revokeObjectURL(output2.src) // free memory
+			}
+		};
+		
+		var loadFile3 = function(event) {
+			var output3 = document.getElementById('outputPic3');
+			output3.src = URL.createObjectURL(event.target.files[0]);
+			output3.onload = function() {
+				URL.revokeObjectURL(output3.src) // free memory
+			}
+		};
+	</script>
+	
+	<script type="text/javascript" th:src="@{/api/ajaxFetch.js}"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#sidebarCollapse').on('click', function() {
+				$('#sidebar').toggleClass('active');
+			});
+			
+			$(".chosen-select").chosen({
+				  no_results_text: "Oops, nothing found!"
+				})
+			// To style all selects
+		  $('select').selectpicker();
+		});
+		
+		
+	</script>
+	<script>
+		function openTab(evt, Name) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(
+						" active", "");
+			}
+			document.getElementById(Name).style.display = "block";
+			evt.currentTarget.className += " active";
+		}
+
+		// Get the element with id="defaultOpen" and click on it
+		document.getElementById("defaultOpen").click();
+	</script>
+  </body>
+</html> 

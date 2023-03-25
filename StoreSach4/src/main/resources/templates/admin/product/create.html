@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html layout:decorator="/admin/template.html">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<title>MinhTuan</title>
+</head>
+  <body>
+    <div layout:fragment="form-body">
+      <div class="container">
+        <h6>Create Product</h6>
+        <hr />
+        <div class="row">
+          <form enctype="multipart/form-data" th:action="@{/admin/product/create}" method="post">
+
+            <div class="mb-3">
+              <label class="form-label">Name:</label>
+              <input type="text" class="form-control" placeholder="Enter name" name="name" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Price:</label>
+              <input type="text" class="form-control" placeholder="Enter price" name="price" />
+            </div>
+            
+            <div class="mb-3">
+				<label class="form-label">Image:</label> 
+				<!-- <input type="file" name="imagefile" accept="image/*" class="form-control" /> -->
+				<input type="file" name="imagefile" accept="image/*" onchange="loadFile(event)" style="margin-bottom: 20px;" /> 
+								
+				 <div id="myDIV">
+				 	<img id="output" style="width: 50%; height: 50%;"/> 
+				 </div> 
+			</div>
+            
+            <div class="mb-3">
+              <label class="form-label">Description:</label>
+              <textarea type="text" class="form-control" placeholder="Enter description" name="description" ></textarea>
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label">Quantity:</label>
+              <input type="text" class="form-control" placeholder="Enter quantity" name="soLuong" />
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label">Category:</label>
+              <select name="category.id" class="form-control">
+                <option th:each="c : ${categoryList}" th:value="${c.id}" th:text="${c.nameCategory}"></option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label">Thuong Hieu:</label>
+              <select name="thuongHieuDTO.id" class="form-control">
+                <option th:each="thuongHieu : ${thuongHieuList}" th:value="${thuongHieu.id}" th:text="${thuongHieu.name}"></option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label">Kich Thuoc:</label>
+              <select name="kichThuocDTO.id" class="form-control">
+                <option th:each="kichThuoc : ${kichThuocList}" th:value="${kichThuoc.id}" th:text="${kichThuoc.name}"></option>
+              </select>
+            </div>
+            
+            <div class="mb-3">
+              <label class="form-label">Gioi Tinh:</label>
+              <select name="gioiTinhDTO.id" class="form-control">
+                <option th:each="gioiTinh : ${gioiTinhList}" th:value="${gioiTinh.id}" th:text="${gioiTinh.name}"></option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+				<button class="w3-teal w3-button" type="submit">Create</button>
+			</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+	var loadFile = function(event) {
+		var output = document.getElementById('output');
+		output.src = URL.createObjectURL(event.target.files[0]);
+		output.onload = function() {
+			URL.revokeObjectURL(output.src) // free memory
+		}
+	};
+</script>

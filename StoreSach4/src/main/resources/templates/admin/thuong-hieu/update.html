@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html layout:decorator="/admin/template">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ok -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+<!-- ok -->
+<title>MinhTuan</title>
+</head>
+<body>
+	<div layout:fragment="form-body">
+		<div class="container">
+			<h6>Sửa thương hiệu</h6>
+			<hr />
+			<div class="row">
+				<form th:action="@{/admin/thuong-hieu/update}" method="post" >
+					<div class="mb-3">
+						<label class="form-label">ID:</label> <input readonly="readonly"
+							th:value="${thuonghieu.id}" type="text" name="id"
+							class="form-control">
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Tên thương hiệu:</label> <input
+							th:value="${thuonghieu.name}" type="text" name="name"
+							class="form-control">
+					</div>
+					
+					<div class="mb-3">
+						<button class="w3-teal w3-button" type="submit">Save</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

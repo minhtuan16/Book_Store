@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html layout:decorator="/admin/template.html">
+<head>
+<title>MinhTuan | Danh sach san pham</title>
+<link th:href="@{/client/css/bootstrap.css}" rel="stylesheet">
+<link th:href="@{/client/font-awesome/css1/all.css}" rel="stylesheet">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<link rel="icon" href="images/icon.png" />
+<!-- Our Custom CSS -->
+<link rel="stylesheet" th:href="@{/client/css/style4.css}">
+<link rel="stylesheet" th:href="@{/client/css/card.css}">
+<script type="text/javascript" th:src="@{/client/font-awesome/js1/fontawesome.js}"></script>
+<script type="text/javascript" src=""></script>
+
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" 
+integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" 
+crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+  <body layout:fragment="form-body">
+		<!-- Page Content  -->
+		<div id="content">
+			<nav class="navbar navbar-expand-lg navbar-light"
+				style="border-bottom: 4px solid #7386D5;">
+				<div class="container-fluid">
+					<!-- <button type="button" id="sidebarCollapse"
+						class="btn btn-info mr-4">
+						<i class="fas fa-align-left"></i>
+						<span>Toggle Sidebar</span>
+					</button> -->
+					<form class="form-inline frm">
+						<input class="form-control mr-sm-2" type="search"
+							placeholder="Search" aria-label="Search">
+						<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+					</form>
+					<button class="btn btn-light d-inline-block d-lg-none ml-auto"
+						type="button" data-toggle="collapse"
+						data-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent" aria-expanded="false"
+						aria-label="Toggle navigation">
+						<i class="fas fa-align-justify"></i>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="nav navbar-nav ml-auto">
+							<li class="nav-item  active">
+								 <button class="w3-deep-orange w3-button mt-3" style="border-radius: 5px; margin-bottom: 10px;">
+									<a th:href="@{/admin/product}" >Thêm mới <i class="fa-solid fa-circle-plus"></i></a>
+								 </button>
+							</li>
+							
+							<!-- <li class="nav-item  active"><a class="nav-link btn btn-light mr-2" th:href="@{/admin/product}"
+								>Add Product <i class="fa-solid fa-circle-plus"></i></a></li>
+							<li class="nav-item"><a onclick=" handleListProduct(event);" class="nav-link btn btn-light mr-2" href="#">Products</a></li>
+							<li class="nav-item"><a class="nav-link btn btn-light" href="#"><i class="fas fa-sign-out-alt"></i></a></li> -->
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<div class="line"></div>
+			<div class="container-fuild" id="app">
+				<div class="col-12">
+            <h3 class="w3-text-teal text-center"><b>List Of Products</b></h3>
+			<table class="table w3-small">
+				<thead>
+					<tr style="font-size: 18px;">
+						<th class="w3-center w3-text-teal">Ảnh</th>
+						<th class="w3-center w3-text-teal">Tên Sách</th>
+						<th class="w3-center w3-text-teal">Mô Tả</th>
+						<th class="w3-center w3-text-teal">Số lượng</th>
+						<th class="w3-center w3-text-teal">Giá</th>
+						<th class="w3-center w3-text-teal">Giảm</th>
+						<th class="w3-center w3-text-teal">Danh Mục</th>
+						<th class="w3-center w3-text-teal">Thương Hiệu</th>
+						<th class="w3-center w3-text-teal">Kích Thước</th>
+						<th class="w3-center w3-text-teal">Giới Tính</th>
+						<th class="w3-center w3-text-teal">Delete</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="product : ${products}">
+						<td class="w3-center" style="justify-content: center">
+							<img alt="" th:src="*{'data:image/jpeg;base64,'+{product.image}}" style="width: 100px; height: 50px;">
+						</td>
+						<td class="w3-center text-truncate" style="max-width: 80px;" >[[*{product.name}]] 
+						<!-- Button trigger modal --> <br>
+							<button type="button" class="btn btn-success btn-sm mt-2 w3-center"
+								data-toggle="modal"
+								th:attr="data-target='#exampleModalCenter'+*{product.id}">Change
+								</button> <!-- Modal -->
+
+							<div class="modal fade"
+								th:id="*{'exampleModalCenter'+{product.id}}" tabindex="-1"
+								role="dialog" aria-labelledby="exampleModalCenterTitle"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalCenterTitle">Change
+												</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<form th:action="@{/admin/changeName}" method="post">
+												<div class="form-group">
+													 <input type="hidden"
+														th:value="*{product.id}" class="form-control" name="id">
+													<label>New Product name</label> <input type="text"
+														name="newPname" class="form-control"> <br>
+													<button type="submit" class="btn btn-primary">submit</button>
+												</div>
+											</form>
+
+										</div>
+									
+									</div>
+								</div>
+							</div>
+
+						</td>
+						<td class="w3-center text-truncate" style="max-width: 200px;">[[*{product.description}]] <!-- Button trigger modal -->
+							<br>
+							<button type="button" class="btn btn-success btn-sm mt-2 w3-center"
+								data-toggle="modal"
+								th:attr="data-target='#exampleModalCenterDesc'+${product.id}">Change
+								</button> <!-- Modal -->
+							<div class="modal fade"
+								th:id="*{'exampleModalCenterDesc'+{product.id}}" tabindex="-1"
+								role="dialog" aria-labelledby="exampleModalCenterTitle"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalCenterTitle">Change
+												product description</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+
+											<form th:action="@{/admin/changeDescription}" method="post">
+												<div class="form-group">
+												 <input type="text"  hidden="hidden"
+														th:value="*{product.id}" class="form-control" name="id">
+													<label>New Product description</label> <textarea rows="2"
+														name="newDescription" class="form-control"></textarea> <br>
+													<button type="submit" class="btn btn-primary">submit</button>
+												</div>
+											</form>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+						</td>
+						<td class="w3-center">[[*{product.quantity}]] <!-- Button trigger modal --> <br>
+							<button type="button" class="btn btn-success btn-sm mt-2 w3-center"
+								data-toggle="modal"
+								th:attr="data-target='#exampleModalCenterquantity'+${product.id}">Change
+								</button> <!-- Modal -->
+							<div class="modal fade"
+								th:id="*{'exampleModalCenterquantity'+{product.id}}" tabindex="-1"
+								role="dialog" aria-labelledby="exampleModalCenterTitle"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalCenterTitle">Change
+												product quantity</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+
+											<form th:action="@{/admin/changeQuantity}" method="post">
+												<div class="form-group">
+													 <input type="text" hidden="hidden"
+														th:value="*{product.id}" class="form-control" name="id">
+													<label>New Product quantity</label> <input type="number" th:value="${product.quantity}"
+														name="newQuantity" class="form-control"> <br>
+													<button type="submit" class="btn btn-primary">submit</button>
+												</div>
+											</form>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+						</td>
+						
+						<td class="w3-center">[[*{product.price}]]$<!-- Button trigger modal --> <br>
+							<button type="button" class="btn btn-success btn-sm mt-2 w3-center"
+								data-toggle="modal"
+								th:attr="data-target='#exampleModalCenterPrice'+${product.id}">Change
+								</button> <!-- Modal -->
+							<div class="modal fade"
+								th:id="*{'exampleModalCenterPrice'+{product.id}}" tabindex="-1"
+								role="dialog" aria-labelledby="exampleModalCenterTitle"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalCenterTitle">Change
+												product price</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+
+											<form th:action="@{/admin/changePrice}" method="post">
+												<div class="form-group">
+													 <input type="text" hidden="hidden"
+														th:value="*{product.id}" class="form-control" name="id">
+													<label>New Product price</label> <input type="text"
+														name="newPrice" class="form-control"> <br>
+													<button type="submit" class="btn btn-primary">submit</button>
+												</div>
+											</form>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+						</td>
+						
+						<td class="w3-center">-[[*{product.discount.discount}]]%<!-- Button trigger modal --> <br>
+							<button type="button" class="btn btn-success btn-sm mt-2 w3-center"
+								data-toggle="modal"
+								th:attr="data-target='#exampleModalCenterDiscount'+${product.id}">Change
+								</button> <!-- Modal -->
+							<div class="modal fade"
+								th:id="*{'exampleModalCenterDiscount'+{product.id}}" tabindex="-1"
+								role="dialog" aria-labelledby="exampleModalCenterTitle"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalCenterTitle">Change
+												product discount</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+
+											<form th:action="@{/admin/changeDiscount}" method="post">
+												<div class="form-group">
+													 <input type="text" hidden="hidden"
+														th:value="*{product.id}" class="form-control" name="id">
+													<label>New Product Discount</label> <input type="number" th:value="${product.discount.discount}"
+														min="0" max="75" name="newDiscount" class="form-control"> <br>
+													<button type="submit" class="btn btn-primary">submit</button>
+												</div>
+											</form>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+						</td>
+						<td class="w3-center">
+							<span th:each="category : ${product.categories}">
+								<span>[[*{category.name}]]</span>
+							</span>
+						</td>
+						<td class="w3-center">
+							<span th:each="thuongHieu : ${product.thuongHieus}">
+								<span>[[*{thuongHieu.name}]]</span>
+							</span>
+						</td>
+						<td class="w3-center">
+							<span th:each="kichThuoc : ${product.kichThuocs}">
+								<span>[[*{kichThuoc.name}]]</span>
+							</span>
+						</td>
+						<td class="w3-center">
+							<span th:each="gioiTinh : ${product.gioiTinhs}">
+								<span>[[*{gioiTinh.name}]]</span>
+							</span>
+						</td>
+						<td class="w3-center">
+							<a th:href="@{/admin/deleteProd/{id}(id=${product.id})}" class="text-danger">
+								<button class="w3-button w3-red btn-sm"><i class="fa-regular fa-trash-can"></i></button>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<hr>
+		</div>
+				
+			 </div>
+		</div>
+	</div>
+	<!-- Bootstrap JS & jQuery -->
+	<script th:src="@{/storeSach3/js/jquery-3.1.1.min.js}"></script>
+	<script th:src="@{/storeSach3/js/bootstrap.js}"></script>
+	<!-- Popper.JS -->
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+		integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+		crossorigin="anonymous"></script>
+	<script type="text/javascript" th:src="@{/api/ajaxFetch.js}"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#sidebarCollapse').on('click', function() {
+				$('#sidebar').toggleClass('active');
+			});
+		});
+	</script>
+</body>
+</html>
